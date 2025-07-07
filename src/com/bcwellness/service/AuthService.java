@@ -1,4 +1,6 @@
 package com.bcwellness.service;
+import com.bcwellness.model.Student;
 
-public class AuthService {
+public interface AuthService {
+
 }
