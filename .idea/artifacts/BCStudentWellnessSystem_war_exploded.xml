@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BCStudentWellnessSystem:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/BCStudentWellnessSystem_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="BCStudentWellnessSystem" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="jstl-1.2" />
+          <element id="library" level="project" name="standard-1.1.2 (2)" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/javax.servlet-api-4.0.1.jar" />
+        </element>
+      </element>
+      <element id="library" level="project" name="standard-1.1.2" />
+      <element id="library" level="project" name="javax.servlet-api-4.0.1" />
+      <element id="javaee-facet-resources" facet="BCStudentWellnessSystem/web/Web" />
+      <element id="artifact" artifact-name="BCStudentWellnessSystem" />
+    </root>
+  </artifact>
+</component>
