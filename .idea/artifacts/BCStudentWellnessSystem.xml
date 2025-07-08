@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="BCStudentWellnessSystem">
+    <output-path>$PROJECT_DIR$/out/artifacts/BCStudentWellnessSystem</output-path>
+    <root id="archive" name="BCStudentWellnessSystem.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="BCStudentWellnessSystem" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="BCStudentWellnessSystem/web/Web" />
+    </root>
+  </artifact>
+</component>
