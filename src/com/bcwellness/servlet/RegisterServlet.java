@@ -54,7 +54,7 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // If valid hash password and save user use DAO
+        // If valid, hash password and save user use DAO
 
 
         // Redirect to login page if success
