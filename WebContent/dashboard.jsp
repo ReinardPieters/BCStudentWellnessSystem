@@ -47,7 +47,7 @@
     <div class="container-fluid">
         <!-- Left Side: Student Info -->
         <span class="navbar-brand mb-0 h5">
-            Welcome, ${sessionScope.name} (${sessionScope.studentNumber})
+            Welcome, ${sessionScope.student.name} (${sessionScope.student.studentNumber})
         </span>
 
         <!-- Right Side: Logout -->

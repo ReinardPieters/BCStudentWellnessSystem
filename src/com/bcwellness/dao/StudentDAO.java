@@ -5,12 +5,17 @@ import java.sql.*;
 
 public class StudentDAO {
 
-    /**
-     * Returns a Student containing email + stored hash,
-     * or null if the user is not found.
-     */
     public Student findByEmail(String email) {
-        String sql = "SELECT password_hash FROM users WHERE email = ?";
+        String sql = """
+        SELECT student_number,
+               name,
+               surname,
+               email,
+               phone,
+               password_hash
+        FROM   users
+        WHERE  email = ?
+    """;
 
         try (Connection con = DBConnection.get();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -19,13 +24,19 @@ public class StudentDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                String hash = rs.getString("password_hash");
-                return new Student(email, hash);
+                return new Student(
+                        rs.getString("student_number"),
+                        rs.getString("name"),
+                        rs.getString("surname"),
+                        rs.getString("email"),
+                        rs.getString("phone"),
+                        rs.getString("password_hash")
+                );
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 }

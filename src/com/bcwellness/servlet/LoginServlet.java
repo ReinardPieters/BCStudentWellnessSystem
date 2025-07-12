@@ -18,8 +18,7 @@ public class LoginServlet extends HttpServlet {
 
         String email = req.getParameter("email");
         String pw    = req.getParameter("password");
-        System.out.println("email: " + email);
-        System.out.println("password: " + pw);
+
         if (email == null || pw == null || email.isBlank() || pw.isBlank()) {
             res.sendRedirect("login.jsp?error=empty");        // JSP shows “enter both fields”
             return;
@@ -28,12 +27,10 @@ public class LoginServlet extends HttpServlet {
         Student student = auth.login(email, pw);
 
         if (student != null) {
-            System.out.println("Login successful");
             HttpSession session = req.getSession(true);
             session.setAttribute("student", student);
             res.sendRedirect("dashboard.jsp");
         } else {
-            System.out.println("Login Failed");
             res.sendRedirect("login.jsp?error=invalid");
         }
     }

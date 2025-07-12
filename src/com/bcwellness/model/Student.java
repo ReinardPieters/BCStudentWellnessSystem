@@ -23,6 +23,10 @@ public class Student {
     }
 
     /* getters (add as needed) */
-    public String getEmail()   { return email; }
-    public String getPassword(){ return password; }
+    public String getEmail()            { return email; }
+    public String getPassword()         { return password; }
+    public String getStudentNumber()    { return studentNumber; }
+    public String getName()             { return name; }
+    public String getSurname()          { return surname; }
+    public String getPhone()            { return phone; }
 }
