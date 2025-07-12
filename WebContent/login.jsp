@@ -56,6 +56,12 @@
         <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
         <a href="index.jsp" class="btn btn-outline-secondary w-100">Back to Home</a>
     </form>
+    <c:if test="${param.error == 'invalid'}">
+        <div class="alert alert-danger">Wrong email or password</div>
+    </c:if>
+    <c:if test="${param.error == 'empty'}">
+        <div class="alert alert-warning">Please enter both fields</div>
+    </c:if>
 </div>
 </body>
 </html>

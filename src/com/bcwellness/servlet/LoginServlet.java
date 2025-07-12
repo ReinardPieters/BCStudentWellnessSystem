@@ -1,44 +1,40 @@
 package com.bcwellness.servlet;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
 import com.bcwellness.model.Student;
+import com.bcwellness.service.AuthService;
+import com.bcwellness.service.AuthServiceImpl;
 
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.IOException;
+
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
+    private final AuthService auth = new AuthServiceImpl();
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
-        // Test data
-        String testEmail = "test@test.com";
-        String testPassword = "test";
-
-        // Get form inputs
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        //Validate if a password or email was sent
-        if (email.isEmpty() || password.isEmpty()) {
-            request.setAttribute("error", "Please enter both email and password");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+        String email = req.getParameter("email");
+        String pw    = req.getParameter("password");
+        System.out.println("email: " + email);
+        System.out.println("password: " + pw);
+        if (email == null || pw == null || email.isBlank() || pw.isBlank()) {
+            res.sendRedirect("login.jsp?error=empty");        // JSP shows “enter both fields”
             return;
         }
 
-        // Fake validation
-        if (testEmail.equals(email) && testPassword.equals(password)) {
-            // Create session
-            HttpSession session = request.getSession();
-            session.setAttribute("studentNumber", "1234567890");
-            session.setAttribute("name", "John Doe");
+        Student student = auth.login(email, pw);
 
-            // Redirect to dashboard
-            response.sendRedirect("dashboard.jsp");
+        if (student != null) {
+            System.out.println("Login successful");
+            HttpSession session = req.getSession(true);
+            session.setAttribute("student", student);
+            res.sendRedirect("dashboard.jsp");
         } else {
-            request.setAttribute("error", "Invalid login details");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            System.out.println("Login Failed");
+            res.sendRedirect("login.jsp?error=invalid");
         }
     }
 }

@@ -7,7 +7,14 @@ public final class DBConnection {
     private static final String USER = "postgres";
     private static final String PASS = "secret";
 
-    private DBConnection() {}                     // no instances
+    static {
+        try { Class.forName("org.postgresql.Driver"); }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException("PostgreSQL JDBC driver not found", e);
+        }
+    }
+
+    private DBConnection() {}
 
     public static Connection get() throws SQLException {
         return DriverManager.getConnection(URL, USER, PASS);

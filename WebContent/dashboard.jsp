@@ -1,8 +1,10 @@
+<%@ page import="com.bcwellness.model.Student" %>
 <%@ page session="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    String studentNumber = (String) session.getAttribute("studentNumber");
-    if (studentNumber == null) {
+    Student student = (Student) session.getAttribute("student");
+    System.out.println(student);
+    if (student == null) {
         response.sendRedirect("login.jsp");
         return;
     }
