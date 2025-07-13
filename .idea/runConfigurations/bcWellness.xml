@@ -81,6 +81,7 @@
     </ConfigurationWrapper>
     <method v="2">
       <option name="Make" enabled="true" />
+      <option name="Make" enabled="true" />
     </method>
   </configuration>
 </component>

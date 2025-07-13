@@ -84,6 +84,9 @@
       <option name="BuildArtifacts" enabled="true">
         <artifact name="BCStudentWellnessSystem:war exploded" />
       </option>
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="BCStudentWellnessSystem:war exploded" />
+      </option>
     </method>
   </configuration>
 </component>

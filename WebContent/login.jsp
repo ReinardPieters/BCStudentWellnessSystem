@@ -38,6 +38,13 @@
     <h1 class="mb-3">Welcome Back to the Wellness Centre</h1>
     <p class="mb-4">Please log in to continue</p>
 
+    <c:if test="${param.error == 'invalid'}">
+        <div class="alert alert-danger">Wrong email or password</div>
+    </c:if>
+    <c:if test="${param.error == 'empty'}">
+        <div class="alert alert-warning">Please enter both fields</div>
+    </c:if>
+
     <form action="login" method="post">
         <c:if test="${not empty error}">
             <div class="alert alert-danger">${error}</div>

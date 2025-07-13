@@ -1,29 +1,61 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+# -------------------------------------------------
+# IDEs
+# -------------------------------------------------
 
-### Eclipse ###
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+# VS Code
 .vscode/
 
-### Mac OS ###
+# -------------------------------------------------
+# Build outputs
+# -------------------------------------------------
+
+# Maven
+/target/
+
+# Gradle
+/build/
+
+# Generic
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+# -------------------------------------------------
+# OS / tool noise
+# -------------------------------------------------
+
+# macOS
 .DS_Store
+# Windows
+Thumbs.db
+desktop.ini
+# Linux
+*~
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
