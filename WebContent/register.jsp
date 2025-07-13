@@ -52,27 +52,32 @@
 
         <div class="mb-3 text-start">
             <label for="student_number" class="form-label">Student Number</label>
-            <input type="text" class="form-control" id="student_number" name="student_number" required pattern="[0-9]+" title="Student number must be digits only">
+            <input type="text" class="form-control" id="student_number" name="student_number" required pattern="[0-9]+" title="Student number must be digits only"
+                   value="<%= request.getAttribute("student_number") != null ? request.getAttribute("student_number") : "" %>">
         </div>
 
         <div class="mb-3 text-start">
             <label for="name" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input type="text" class="form-control" id="name" name="name" required
+                   value="<%= request.getAttribute("name") != null ? request.getAttribute("name") : "" %>">
         </div>
 
         <div class="mb-3 text-start">
             <label for="surname" class="form-label">Surname</label>
-            <input type="text" class="form-control" id="surname" name="surname" required>
+            <input type="text" class="form-control" id="surname" name="surname" required
+                   value="<%= request.getAttribute("surname") != null ? request.getAttribute("surname") : "" %>">
         </div>
 
         <div class="mb-3 text-start">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email like user@example.com">
+            <input type="email" class="form-control" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email like user@example.com"
+                   value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>">
         </div>
 
         <div class="mb-3 text-start">
             <label for="phone" class="form-label">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required pattern="0[6-8][0-9]{8}" title="Enter a valid South African number (e.g., 0821234567)">
+            <input type="tel" class="form-control" id="phone" name="phone" required pattern="0[6-8][0-9]{8}" title="Enter a valid South African number (e.g., 0821234567)"
+                   value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : "" %>">
         </div>
 
         <div class="mb-4 text-start">

@@ -59,6 +59,17 @@ public class RegisterServlet extends HttpServlet {
         // If any errors, send them back
         if (!errors.isEmpty()) {
             request.setAttribute("errors", errors);
+
+            // Set the original input values back to the request attributes
+            request.setAttribute("student_number", request.getParameter("student_number"));
+            request.setAttribute("name", request.getParameter("name"));
+            request.setAttribute("surname", request.getParameter("surname"));
+            request.setAttribute("email", request.getParameter("email"));
+            request.setAttribute("phone", request.getParameter("phone"));
+
+            // Also set error message
+            request.setAttribute("error", "Registration failed: something went wrong.");
+
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
