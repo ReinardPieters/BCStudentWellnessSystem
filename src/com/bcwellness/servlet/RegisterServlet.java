@@ -72,6 +72,21 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             StudentDAO studentDAO = new StudentDAO();
+
+            // Check for duplicates
+            if (studentDAO.studentNumberExists(studentNumber)) {
+                errors.add("Student number already exists.");
+            }
+            if (studentDAO.emailExists(email)) {
+                errors.add("Email already registered.");
+            }
+            if (!errors.isEmpty()) {
+                request.setAttribute("errors", errors);
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+                return;
+            }
+
+
             boolean success = studentDAO.insertStudent(student);
 
             // If registration successful, redirect to login

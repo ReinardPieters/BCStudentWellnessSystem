@@ -24,6 +24,24 @@ public class StudentDAO {
         }
     }
 
+    public boolean studentNumberExists(String studentNumber) throws SQLException {
+        String sql = "SELECT 1 FROM students WHERE student_number = ?";
+        try (Connection conn = DBConnection.get(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, studentNumber);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // returns true if record exists
+        }
+    }
+
+    public boolean emailExists(String email) throws SQLException {
+        String sql = "SELECT 1 FROM students WHERE email = ?";
+        try (Connection conn = DBConnection.get(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        }
+    }
+
     public Student findByEmail(String email) {
         String sql = """
         SELECT student_number,
