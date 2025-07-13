@@ -25,7 +25,9 @@
         h1 {
             color: #333;
         }
-
+        .mb-0 li {
+            list-style-type: none;
+        }
         .btn {
             width: 120px;
         }

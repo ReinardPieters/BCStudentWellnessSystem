@@ -57,7 +57,7 @@ public class DBInitialiser implements ServletContextListener {
                 String createSQL = """
                     CREATE TABLE students (
                         id SERIAL PRIMARY KEY,
-                        student_number VARCHAR(9) UNIQUE NOT NULL,
+                        student_number VARCHAR(6) UNIQUE NOT NULL,
                         name VARCHAR(50),
                         surname VARCHAR(50),
                         email VARCHAR(100) UNIQUE NOT NULL,

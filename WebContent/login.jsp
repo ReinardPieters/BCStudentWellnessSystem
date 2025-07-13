@@ -44,6 +44,9 @@
     <c:if test="${param.error == 'empty'}">
         <div class="alert alert-warning">Please enter both fields</div>
     </c:if>
+    <c:if test="${param.msg == 'registered'}">
+        <div class="alert alert-success">Registered Please Login</div>
+    </c:if>
 
     <form action="login" method="post">
         <c:if test="${not empty error}">
