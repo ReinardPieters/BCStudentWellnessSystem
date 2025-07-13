@@ -10,6 +10,7 @@
           <element id="library" level="project" name="jstl-1.2" />
           <element id="library" level="project" name="standard-1.1.2 (2)" />
           <element id="file-copy" path="$PROJECT_DIR$/lib/javax.servlet-api-4.0.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/postgresql-42.7.7.jar" />
         </element>
       </element>
       <element id="library" level="project" name="standard-1.1.2" />

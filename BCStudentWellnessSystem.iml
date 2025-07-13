@@ -39,10 +39,9 @@
     </orderEntry>
     <orderEntry type="library" name="standard-1.1.2" level="project" />
     <orderEntry type="library" name="javax.servlet-api-4.0.1" level="project" />
-    <orderEntry type="library" name="javax.servlet-api-4.0.1 (2)" level="project" />
     <orderEntry type="library" name="jstl-1.2" level="project" />
     <orderEntry type="library" name="standard-1.1.2 (2)" level="project" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WebContent/WEB-INF/lib/postgresql-42.7.7.jar!/" />
@@ -51,7 +50,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/WebContent/WEB-INF/lib/jbcrypt-0.4.jar!/" />

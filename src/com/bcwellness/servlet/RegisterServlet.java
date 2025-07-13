@@ -1,13 +1,17 @@
 package com.bcwellness.servlet;
+
+import com.bcwellness.dao.StudentDAO;
+import com.bcwellness.model.Student;
+import com.bcwellness.util.PasswordUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpServletResponse;;
 
 public class RegisterServlet extends HttpServlet {
     // Overrides the HttpServlet's doPost method to handle form submissions
@@ -59,8 +63,30 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        // Save user with DAO (after hashing password) — TODO
+        // Hash Password
+        String hashPassword = PasswordUtil.hash(password);
 
-        response.sendRedirect("login.jsp");
+        // Save user with DAO
+        // Create model
+        Student student = new Student(studentNumber, name, surname, email, phone, hashPassword);
+
+        try {
+            StudentDAO studentDAO = new StudentDAO();
+            boolean success = studentDAO.insertStudent(student);
+
+            // If registration successful, redirect to login
+            if (success) {
+                response.sendRedirect("login.jsp");
+            } else {
+                errors.add("Registration failed due to unknown reason.");
+                request.setAttribute("errors", errors);
+                request.getRequestDispatcher("register.jsp").forward(request, response);
+            }
+
+        } catch (SQLException e) {
+            errors.add("Database error: " + e.getMessage());
+            request.setAttribute("errors", errors);
+            request.getRequestDispatcher("register.jsp").forward(request, response);
+        }
     }
 }

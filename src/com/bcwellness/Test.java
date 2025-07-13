@@ -15,7 +15,6 @@ public class Test {
         testDao();           // 2 – DAO lookup
         testAuthService();   // 3 – password check
     }
-
     /* ---------- individual mini-tests ---------- */
 
     private static void testDb() throws SQLException {

@@ -22,11 +22,19 @@ public class Student {
         this("", "", "", email, "", passwordHash);
     }
 
-    /* getters (add as needed) */
+    /* getters */
     public String getEmail()            { return email; }
     public String getPassword()         { return password; }
     public String getStudentNumber()    { return studentNumber; }
     public String getName()             { return name; }
     public String getSurname()          { return surname; }
-    public String getPhone()            { return phone; }
+    public String getPhone()            { return phone; } // Hashed Password
+
+    /* setters */
+    public void setEmail(String email) { this.email = email; }
+    public void setPassword(String password) { this.password = password; }
+    public void setStudentNumber(String studentNumber) { this.studentNumber = studentNumber; }
+    public void setName(String name) { this.name = name; }
+    public void setSurname(String surname) { this.surname = surname; }
+    public void setPhone(String phone) { this.phone = phone; }
 }

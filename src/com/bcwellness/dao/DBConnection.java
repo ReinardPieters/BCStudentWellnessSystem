@@ -5,7 +5,7 @@ import java.sql.*;
 public final class DBConnection {
     private static final String URL  = "jdbc:postgresql://localhost:5432/wellness";
     private static final String USER = "postgres";
-    private static final String PASS = "secret";
+    private static final String PASS = "74269";
 
     static {
         try { Class.forName("org.postgresql.Driver"); }
