@@ -47,7 +47,9 @@
     <c:if test="${param.msg == 'registered'}">
         <div class="alert alert-success">Registered Please Login</div>
     </c:if>
-
+    <c:if test="${param.msg == 'loggedout'}">
+        <div class="alert alert-info">You have been logged out.</div>
+    </c:if>
     <form action="login" method="post">
         <c:if test="${not empty error}">
             <div class="alert alert-danger">${error}</div>

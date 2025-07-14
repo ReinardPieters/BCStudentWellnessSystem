@@ -1,21 +1,21 @@
 package com.bcwellness.servlet;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
+
+    // Handles both GET and POST
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    protected void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
+
+        HttpSession session = req.getSession(false);   // don’t create new
         if (session != null) {
             session.invalidate();
         }
-        response.sendRedirect("index.jsp");
+
+        res.sendRedirect("login.jsp?msg=loggedout");
     }
 }
