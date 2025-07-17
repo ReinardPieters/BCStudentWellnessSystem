@@ -7,82 +7,89 @@ import javax.servlet.annotation.WebListener;
 import java.sql.*;
 import java.util.Enumeration;
 
+/*  ── Auto-provision database & table on app start-up ────────────────
+    • Runs once when the web-app boots (Servlet 3.0 @WebListener).
+    • Ensures Postgres DB  ➜  “wellness”  and table  ➜  “students”
+      exist before the rest of the app begins to use them.          */
 @WebListener
 public class DBInitialiser implements ServletContextListener {
 
-    private static final String DB_NAME = "wellness";
-    private static final String TABLE_NAME = "students";
+    /* ── Config ── */
+    // Identifiers
+    private static final String DB_NAME = System.getenv().getOrDefault("WELLNESS_DB_NAME", "wellness");
+    private static final String TABLE   = System.getenv().getOrDefault("WELLNESS_TABLE", "students");
+    // JDBC URLs
+    private static final String SYS_URL = System.getenv().getOrDefault("WELLNESS_SYS_URL", "jdbc:postgresql://localhost:5432/postgres");
+    private static final String DB_URL  = System.getenv().getOrDefault("WELLNESS_DB_URL", "jdbc:postgresql://localhost:5432/" + DB_NAME);
+    // Credentials
+    private static final String USER = System.getenv().getOrDefault("WELLNESS_DB_USER", "postgres");
+    private static final String PASS = System.getenv().getOrDefault("WELLNESS_DB_PASS", "74269");
 
+    /* ── app boot ── */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println("[DBInitialiser] Checking database and table...");
 
-        try {
-            Class.forName("org.postgresql.Driver");
-            System.out.println("PostgreSQL driver manually loaded.");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Failed to load PostgreSQL driver: " + e.getMessage());
+        System.out.println("[DBInitialiser] verifying database + table …");
+
+        /* ── make sure JDBC driver is present ── */
+        try { Class.forName("org.postgresql.Driver"); }
+        catch (ClassNotFoundException ex) {
+            throw new IllegalStateException("PostgreSQL driver not on classpath", ex);
         }
 
-        // 1. Connect to 'postgres' and create the database if needed
-        String systemURL = "jdbc:postgresql://localhost:5432/postgres";
-        String dbURL = "jdbc:postgresql://localhost:5432/" + DB_NAME;
-        String user = "postgres";
-        String pass = "74269";
+        /* ── 1. create DB if missing ── */
+        try (Connection sys = DriverManager.getConnection(SYS_URL, USER, PASS);
+             Statement  st  = sys.createStatement()) {
 
-        try (Connection sysConn = DriverManager.getConnection(systemURL, user, pass);
-             Statement sysStmt = sysConn.createStatement()) {
-
-            ResultSet rs = sysStmt.executeQuery("SELECT 1 FROM pg_database WHERE datname = '" + DB_NAME + "'");
+            ResultSet rs = st.executeQuery(
+                    "SELECT 1 FROM pg_database WHERE datname = '" + DB_NAME + "'");
             if (!rs.next()) {
-                sysStmt.executeUpdate("CREATE DATABASE " + DB_NAME);
-                System.out.println("[DBInitialiser] Database '" + DB_NAME + "' created.");
+                st.executeUpdate("CREATE DATABASE " + DB_NAME);
+                System.out.println("  • database created");
             } else {
-                System.out.println("[DBInitialiser] Database already exists.");
+                System.out.println("  • database already present");
             }
-
         } catch (SQLException e) {
-            System.err.println("[DBInitialiser] Failed to create/check database: " + e.getMessage());
-            return;
+            System.err.println("  !! cannot create/check database → " + e.getMessage());
+            return;                           // abort further checks
         }
 
-        // 2. Connect to target DB and create table if needed
-        try (Connection dbConn = DriverManager.getConnection(dbURL, user, pass);
-             Statement stmt = dbConn.createStatement()) {
+        /* ── 2. create table if missing ── */
+        try (Connection db = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement  st = db.createStatement()) {
 
-            DatabaseMetaData meta = dbConn.getMetaData();
-            ResultSet rs = meta.getTables(null, null, TABLE_NAME, null);
+            ResultSet rs = db.getMetaData()
+                    .getTables(null, null, TABLE, null);
 
             if (!rs.next()) {
-                String createSQL = """
+                st.executeUpdate("""
                     CREATE TABLE students (
-                        id SERIAL PRIMARY KEY,
-                        student_number VARCHAR(6) UNIQUE NOT NULL,
-                        name VARCHAR(50),
-                        surname VARCHAR(50),
-                        email VARCHAR(100) UNIQUE NOT NULL,
-                        phone VARCHAR(20),
-                        password TEXT NOT NULL
-                    )
-                    """;
-                stmt.executeUpdate(createSQL);
-                System.out.println("[DBInitialiser] Table 'students' created.");
+                        id             SERIAL PRIMARY KEY,
+                        student_number VARCHAR(6)  UNIQUE NOT NULL,
+                        name           VARCHAR(50),
+                        surname        VARCHAR(50),
+                        email          VARCHAR(100) UNIQUE NOT NULL,
+                        phone          VARCHAR(20),
+                        password       TEXT NOT NULL
+                    )""");
+                System.out.println("  • table created");
             } else {
-                System.out.println("[DBInitialiser] Table 'students' already exists.");
+                System.out.println("  • table already present");
             }
-
         } catch (SQLException e) {
-            System.err.println("[DBInitialiser] Failed to create/check table: " + e.getMessage());
+            System.err.println("  !! cannot create/check table → " + e.getMessage());
         }
 
+        /* ── log active JDBC drivers ── */
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
-            System.out.println("🔍 Loaded driver: " + drivers.nextElement().getClass().getName());
+            System.out.println("  🔍 driver: " + drivers.nextElement().getClass().getName());
         }
     }
 
+    /* ── app shutdown ── */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("[DBInitializer] Web app is shutting down.");
+        System.out.println("[DBInitialiser] application shutting down");
     }
 }

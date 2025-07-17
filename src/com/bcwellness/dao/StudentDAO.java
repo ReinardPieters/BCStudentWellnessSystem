@@ -1,58 +1,66 @@
 package com.bcwellness.dao;
 
 import com.bcwellness.model.Student;
-import com.bcwellness.dao.DBConnection;
 import java.sql.*;
 
+/**
+ * DAO-layer helper for the <students> table.
+ * Keeps SQL in one place and hides JDBC boiler-plate from the rest of the app.
+ */
 public class StudentDAO {
 
-    public boolean insertStudent(Student student) throws SQLException {
-        String sql = "INSERT INTO students (student_number, name, surname, email, phone, password) VALUES (?, ?, ?, ?, ?, ?)";
+    /* ── Insert ── */
+    // Adds a new student row; returns true on success
+    public boolean insertStudent(Student s) throws SQLException {
+        String sql = """
+            INSERT INTO students
+                   (student_number, name, surname, email, phone, password)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """;
 
         try (Connection conn = DBConnection.get();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, student.getStudentNumber());
-            stmt.setString(2, student.getName());
-            stmt.setString(3, student.getSurname());
-            stmt.setString(4, student.getEmail());
-            stmt.setString(5, student.getPhone());
-            stmt.setString(6, student.getPassword());
+            stmt.setString(1, s.getStudentNumber());
+            stmt.setString(2, s.getName());
+            stmt.setString(3, s.getSurname());
+            stmt.setString(4, s.getEmail());
+            stmt.setString(5, s.getPhone());
+            stmt.setString(6, s.getPassword());
 
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+            return stmt.executeUpdate() == 1;
         }
     }
 
+    /* ── Existence checks ── */
     public boolean studentNumberExists(String studentNumber) throws SQLException {
         String sql = "SELECT 1 FROM students WHERE student_number = ?";
-        try (Connection conn = DBConnection.get(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, studentNumber);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next(); // returns true if record exists
+        try (Connection c = DBConnection.get();
+             PreparedStatement p = c.prepareStatement(sql)) {
+
+            p.setString(1, studentNumber);
+            return p.executeQuery().next();
         }
     }
 
     public boolean emailExists(String email) throws SQLException {
         String sql = "SELECT 1 FROM students WHERE email = ?";
-        try (Connection conn = DBConnection.get(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
+        try (Connection c = DBConnection.get();
+             PreparedStatement p = c.prepareStatement(sql)) {
+
+            p.setString(1, email);
+            return p.executeQuery().next();
         }
     }
 
+    /* ── Fetch single row ── */
+    // Returns a populated Student object, or null if not found
     public Student findByEmail(String email) {
         String sql = """
-        SELECT student_number,
-               name,
-               surname,
-               email,
-               phone,
-               password
-        FROM   students
-        WHERE  email = ?
-    """;
+            SELECT student_number, name, surname, email, phone, password
+            FROM   students
+            WHERE  email = ?
+        """;
 
         try (Connection con = DBConnection.get();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -67,13 +75,11 @@ public class StudentDAO {
                         rs.getString("surname"),
                         rs.getString("email"),
                         rs.getString("phone"),
-                        rs.getString("password")
-                );
+                        rs.getString("password"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 }

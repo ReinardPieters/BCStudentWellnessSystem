@@ -7,15 +7,13 @@ import java.io.IOException;
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
 
-    // Handles both GET and POST
+    /* ── End-session & redirect ── */
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res) throws IOException {
 
-        HttpSession session = req.getSession(false);   // don’t create new
-        if (session != null) {
-            session.invalidate();
-        }
+        HttpSession session = req.getSession(false);   // existing session only
+        if (session != null) session.invalidate();     // clear user data
 
-        res.sendRedirect("login.jsp?msg=loggedout");
+        res.sendRedirect("login.jsp?msg=loggedout");   // back to login
     }
 }
